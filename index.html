@@ -1,0 +1,1766 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UTS - XI Teknik Mekatronika SMK SMTI Yogyakarta</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- FontAwesome Icon -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+
+    <style>
+      body {
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+      }
+
+      /* Custom Animations */
+      @keyframes wave {
+        0%,
+        100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-3px);
+        }
+      }
+      .animate-wave {
+        animation: wave 2.5s ease-in-out infinite;
+      }
+
+      /* Animated Dash Flow for Wiring & Signal Diagrams */
+      @keyframes dash-flow {
+        to {
+          stroke-dashoffset: -20;
+        }
+      }
+      .animate-flow-line {
+        stroke-dasharray: 6, 4;
+        animation: dash-flow 1s linear infinite;
+      }
+
+      /* Crusher & Gear Spin Animations (Smooth Pivot Fix) */
+      @keyframes spin-cw {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      @keyframes spin-ccw {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(-360deg);
+        }
+      }
+      .animate-spin-cw {
+        animation: spin-cw 3s linear infinite;
+        transform-origin: center;
+        transform-box: fill-box;
+      }
+      .animate-spin-ccw {
+        animation: spin-ccw 3s linear infinite;
+        transform-origin: center;
+        transform-box: fill-box;
+      }
+      .animate-spin-fast {
+        animation: spin-cw 1.2s linear infinite;
+        transform-origin: center;
+        transform-box: fill-box;
+      }
+
+      /* Particles Flow in Venturi Tube */
+      @keyframes venturi-flow {
+        0% {
+          transform: translateX(0px);
+          opacity: 0;
+        }
+        20% {
+          opacity: 1;
+        }
+        80% {
+          opacity: 1;
+        }
+        100% {
+          transform: translateX(420px);
+          opacity: 0;
+        }
+      }
+      .animate-particle-1 {
+        animation: venturi-flow 2.2s linear infinite;
+      }
+      .animate-particle-2 {
+        animation: venturi-flow 2.2s linear infinite 0.7s;
+      }
+      .animate-particle-3 {
+        animation: venturi-flow 2.2s linear infinite 1.4s;
+      }
+
+      /* ============================================================ */
+      /* ANIMASI SOAL 24: BATU BESAR -> HANCUR JADI BATU KECIL BANYAK */
+      /* ============================================================ */
+
+      /* 1. Batu Besar Jatuh dari Hopper ke Dalam Crusher */
+      @keyframes big-rock-fall {
+        0% {
+          transform: translate(0px, -15px) scale(0.7) rotate(0deg);
+          opacity: 0;
+        }
+        15% {
+          opacity: 1;
+        }
+        42% {
+          transform: translate(0px, 32px) scale(1) rotate(45deg);
+          opacity: 1;
+        }
+        52% {
+          /* Terhimpit roda gigi & hancur lebur */
+          transform: translate(0px, 50px) scale(0.1) rotate(90deg);
+          opacity: 0;
+        }
+        100% {
+          transform: translate(0px, 50px) scale(0);
+          opacity: 0;
+        }
+      }
+
+      .animate-big-rock-stream1 {
+        animation: big-rock-fall 2.6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+      }
+      .animate-big-rock-stream2 {
+        animation: big-rock-fall 2.6s cubic-bezier(0.4, 0, 0.6, 1) infinite 1.3s;
+      }
+
+      /* 2. Serpihan Banyak Batu Kecil Keluar Dari Bawah Gear ke Conveyor */
+      @keyframes small-rock-frag-1 {
+        0%,
+        48% {
+          transform: translate(0px, 52px) scale(0);
+          opacity: 0;
+        }
+        54% {
+          transform: translate(-8px, 65px) scale(1);
+          opacity: 1;
+        }
+        72% {
+          transform: translate(-12px, 142px) scale(1);
+          opacity: 1;
+        }
+        100% {
+          transform: translate(110px, 142px) scale(0.8);
+          opacity: 0;
+        }
+      }
+
+      @keyframes small-rock-frag-2 {
+        0%,
+        50% {
+          transform: translate(0px, 52px) scale(0);
+          opacity: 0;
+        }
+        56% {
+          transform: translate(2px, 66px) scale(1);
+          opacity: 1;
+        }
+        74% {
+          transform: translate(-2px, 142px) scale(1);
+          opacity: 1;
+        }
+        100% {
+          transform: translate(120px, 142px) scale(0.8);
+          opacity: 0;
+        }
+      }
+
+      @keyframes small-rock-frag-3 {
+        0%,
+        51% {
+          transform: translate(0px, 52px) scale(0);
+          opacity: 0;
+        }
+        57% {
+          transform: translate(9px, 68px) scale(1);
+          opacity: 1;
+        }
+        75% {
+          transform: translate(10px, 142px) scale(1);
+          opacity: 1;
+        }
+        100% {
+          transform: translate(130px, 142px) scale(0.8);
+          opacity: 0;
+        }
+      }
+
+      /* Stream A (Menyesuaikan Batu Besar 1) */
+      .animate-small-1a {
+        animation: small-rock-frag-1 2.6s ease-out infinite;
+      }
+      .animate-small-1b {
+        animation: small-rock-frag-2 2.6s ease-out infinite;
+      }
+      .animate-small-1c {
+        animation: small-rock-frag-3 2.6s ease-out infinite;
+      }
+
+      /* Stream B (Menyesuaikan Batu Besar 2) */
+      .animate-small-2a {
+        animation: small-rock-frag-1 2.6s ease-out infinite 1.3s;
+      }
+      .animate-small-2b {
+        animation: small-rock-frag-2 2.6s ease-out infinite 1.3s;
+      }
+      .animate-small-2c {
+        animation: small-rock-frag-3 2.6s ease-out infinite 1.3s;
+      }
+
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #f1f5f9;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 9999px;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col justify-between"
+  >
+    <!-- HEADER / NAVIGATION BAR -->
+    <header
+      class="bg-blue-600 text-white sticky top-0 z-50 border-b border-blue-700 shadow-md"
+    >
+      <div
+        class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between"
+      >
+        <div class="flex items-center gap-3">
+          <div
+            class="w-10 h-10 rounded-xl bg-white text-blue-600 flex items-center justify-center font-black text-lg shadow-md shrink-0"
+          >
+            <i class="fa-solid fa-microchip"></i>
+          </div>
+          <div>
+            <h1
+              class="text-sm sm:text-base font-black text-white leading-tight mt-0.5"
+            >
+              UTS - XI Teknik Mekatronika SMK SMTI Yogyakarta
+            </h1>
+          </div>
+        </div>
+
+        <!-- TIMER & ACTION BUTTON -->
+        <div class="flex items-center gap-3 sm:gap-6">
+          <div class="hidden sm:flex flex-col items-end">
+            <span class="text-[10px] text-blue-100 font-semibold uppercase"
+              >Waktu Tersisa</span
+            >
+            <span
+              id="timer-display"
+              class="font-mono text-sm sm:text-base font-bold text-sky-200"
+              >90:00</span
+            >
+          </div>
+          <button
+            onclick="submitExam()"
+            class="px-3 py-1.5 sm:px-4 sm:py-2 bg-blue-500 hover:bg-blue-400 text-white rounded-xl text-xs sm:text-sm font-black shadow-md transition-all active:scale-95 flex items-center gap-2 border border-blue-400"
+          >
+            <i class="fa-solid fa-paper-plane"></i>
+            <span>Selesai Ujian</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- TOP PROGRESS BAR -->
+      <div class="w-full bg-blue-900/40 h-1.5">
+        <div
+          id="exam-progress-bar"
+          class="bg-sky-300 h-full w-0 transition-all duration-300"
+        ></div>
+      </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main
+      class="max-w-6xl mx-auto w-full p-3 sm:p-5 grid grid-cols-1 lg:grid-cols-12 gap-5"
+    >
+      <!-- LEFT / MAIN QUESTION CARD PANEL -->
+      <section class="lg:col-span-8 space-y-4">
+        <div
+          id="question-card"
+          class="bg-white rounded-2xl border border-slate-200 p-4 sm:p-6 shadow-sm space-y-4 relative"
+        >
+          <!-- QUESTION HEADER BADGE -->
+          <div
+            class="flex items-center justify-between border-b border-slate-100 pb-3"
+          >
+            <div class="flex items-center gap-2">
+              <span
+                id="q-number-badge"
+                class="bg-blue-600 text-white text-xs font-black px-3 py-1 rounded-lg"
+              >
+                Soal #1
+              </span>
+              <span
+                id="q-type-badge"
+                class="bg-blue-50 text-blue-700 border border-blue-200 text-[11px] font-bold px-2.5 py-0.5 rounded-md"
+              >
+                Bagian I: Pilihan Ganda
+              </span>
+            </div>
+            <span class="text-xs text-slate-400 font-medium font-mono"
+              >Total 24 Soal</span
+            >
+          </div>
+
+          <!-- DYNAMIC VISUAL/ANIMATION CONTAINER -->
+          <div id="visual-container" class="hidden"></div>
+
+          <!-- QUESTION TEXT -->
+          <h2
+            id="q-text"
+            class="text-sm sm:text-base font-bold text-slate-900 leading-relaxed"
+          >
+            Loading Soal...
+          </h2>
+
+          <!-- OPTIONS / INPUT CONTAINER -->
+          <div id="options-container" class="space-y-2.5 pt-2">
+            <!-- Rendered via JS -->
+          </div>
+
+          <!-- EXPLANATION / PEMBAHASAN ACCORDION -->
+          <div
+            id="explanation-box"
+            class="hidden bg-blue-50 border-l-4 border-blue-600 p-3.5 rounded-r-xl space-y-1.5 transition-all"
+          >
+            <div
+              class="flex items-center gap-2 text-blue-950 font-bold text-xs"
+            >
+              <i class="fa-solid fa-lightbulb text-amber-500"></i>
+              <span id="explanation-title">Kunci & Pembahasan:</span>
+            </div>
+            <div
+              id="explanation-text"
+              class="text-xs text-blue-900 leading-relaxed"
+            ></div>
+          </div>
+
+          <!-- BOTTOM CARD NAVIGATION -->
+          <div
+            class="flex items-center justify-between pt-4 border-t border-slate-100"
+          >
+            <button
+              id="btn-prev"
+              onclick="navigateQuestion(-1)"
+              class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition-all disabled:opacity-40 flex items-center gap-1.5"
+            >
+              <i class="fa-solid fa-chevron-left text-[10px]"></i> Sebelumnya
+            </button>
+            <span
+              id="q-counter-text"
+              class="text-xs text-slate-500 font-semibold font-mono"
+            >
+              1 / 24
+            </span>
+            <button
+              id="btn-next"
+              onclick="navigateQuestion(1)"
+              class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold transition-all disabled:opacity-40 flex items-center gap-1.5 shadow-sm"
+            >
+              Selanjutnya <i class="fa-solid fa-chevron-right text-[10px]"></i>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT PANEL: QUESTION NAVIGATOR & EXAM INFO -->
+      <aside class="lg:col-span-4 space-y-4">
+        <!-- NUMBER GRID PALETTE -->
+        <div
+          class="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm space-y-3"
+        >
+          <div class="flex items-center justify-between">
+            <h3
+              class="text-xs font-extrabold text-slate-900 uppercase tracking-wider flex items-center gap-1.5"
+            >
+              <i class="fa-solid fa-grid-2 text-blue-600"></i> Navigasi Soal
+            </h3>
+            <span
+              id="answered-count-badge"
+              class="text-[10px] font-bold bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full border border-blue-200"
+            >
+              0 dari 24 Terjawab
+            </span>
+          </div>
+
+          <!-- BAGIAN 1: PG GRID -->
+          <div class="space-y-1 pt-1">
+            <span
+              class="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider block"
+              >Bagian I: Pilihan Ganda (1-15)</span
+            >
+            <div id="number-grid-pg" class="grid grid-cols-5 gap-1.5"></div>
+          </div>
+
+          <!-- BAGIAN 2: URAIAN KONSEPTUAL GRID -->
+          <div class="space-y-1 pt-2 border-t border-slate-100">
+            <span
+              class="text-[10px] font-extrabold text-purple-700 uppercase tracking-wider block"
+              >Bagian II: Uraian Konseptual (16-22)</span
+            >
+            <div id="number-grid-uraian" class="grid grid-cols-5 gap-1.5"></div>
+          </div>
+
+          <!-- BAGIAN 3: KALKULASI & SIMULASI GRID -->
+          <div class="space-y-1 pt-2 border-t border-slate-100">
+            <span
+              class="text-[10px] font-extrabold text-amber-600 uppercase tracking-wider block"
+              >Bagian III: Kalkulasi & Simulasi (23-24)</span
+            >
+            <div
+              id="number-grid-bagian3"
+              class="grid grid-cols-5 gap-1.5"
+            ></div>
+          </div>
+
+          <!-- LEGEND -->
+          <div
+            class="grid grid-cols-3 gap-1 pt-3 border-t border-slate-100 text-[10px] text-slate-500 font-medium text-center"
+          >
+            <div class="flex items-center gap-1">
+              <span class="w-2.5 h-2.5 rounded-full bg-slate-200"></span> Belum
+            </div>
+            <div class="flex items-center gap-1">
+              <span class="w-2.5 h-2.5 rounded-full bg-blue-600"></span> Dijawab
+            </div>
+            <div class="flex items-center gap-1">
+              <span class="w-2.5 h-2.5 rounded-full bg-sky-400"></span> Aktif
+            </div>
+          </div>
+        </div>
+
+        <!-- EXAM INSTRUCTIONS CARD -->
+        <div
+          class="bg-blue-700 text-white rounded-2xl p-4 border border-blue-600 space-y-2.5 shadow-sm"
+        >
+          <div class="flex items-center gap-2 text-sky-200 font-bold text-xs">
+            <i class="fa-solid fa-circle-info"></i>
+            <span>Petunjuk Pengerjaan UTS</span>
+          </div>
+          <ul
+            class="text-[11px] text-blue-100 space-y-1.5 leading-relaxed font-normal"
+          >
+            <li class="flex items-start gap-1.5">
+              <i class="fa-solid fa-check text-sky-300 text-[10px] mt-0.5"></i>
+              <span
+                ><strong>Bagian I (#1 - #15):</strong> Pilihan Ganda (Pilih A,
+                B, C, D, atau E).</span
+              >
+            </li>
+            <li class="flex items-start gap-1.5">
+              <i class="fa-solid fa-check text-sky-300 text-[10px] mt-0.5"></i>
+              <span
+                ><strong>Bagian II (#16 - #22):</strong> Soal Uraian Konseptual
+                PLC.</span
+              >
+            </li>
+            <li class="flex items-start gap-1.5">
+              <i class="fa-solid fa-star text-amber-300 text-[10px] mt-0.5"></i>
+              <span
+                ><strong>Bagian III (#23 - #24):</strong> Analisis Simulasi &
+                Kalkulasi Scaling Analog (Ketik hasil & unggah foto
+                coretan).</span
+              >
+            </li>
+          </ul>
+        </div>
+      </aside>
+    </main>
+
+    <!-- FOOTER -->
+    <footer
+      class="bg-white border-t border-slate-200 py-3 text-center text-xs text-slate-500 mt-6"
+    >
+      <div class="max-w-6xl mx-auto px-4">
+        &copy; 2026 XI Teknik Mekatronika - SMK SMTI Yogyakarta.
+      </div>
+    </footer>
+
+    <!-- MODAL POPUP RESULTS / EVALUASI HASIL UTS -->
+    <div
+      id="results-modal"
+      class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4"
+    >
+      <div
+        class="bg-white rounded-3xl border border-slate-200 max-w-lg w-full p-6 space-y-5 shadow-2xl relative text-center"
+      >
+        <div
+          class="w-16 h-16 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mx-auto text-2xl shadow-inner"
+        >
+          <i class="fa-solid fa-trophy"></i>
+        </div>
+
+        <div>
+          <span
+            class="text-xs font-bold text-slate-400 uppercase tracking-widest"
+            >Hasil Evaluasi UTS</span
+          >
+          <h2 class="text-xl font-black text-slate-900 mt-0.5">
+            Ujian Selesai!
+          </h2>
+        </div>
+
+        <!-- SCORE DISPLAY FOR PG -->
+        <div
+          class="bg-slate-50 border border-slate-200 rounded-2xl p-4 grid grid-cols-3 gap-2"
+        >
+          <div>
+            <span class="text-[10px] text-slate-400 font-bold uppercase block"
+              >Skor PG</span
+            >
+            <span id="modal-score" class="text-2xl font-black text-blue-600"
+              >0</span
+            >
+            <span class="text-[10px] text-slate-400">/ 100</span>
+          </div>
+          <div>
+            <span class="text-[10px] text-slate-400 font-bold uppercase block"
+              >PG Benar</span
+            >
+            <span
+              id="modal-correct"
+              class="text-2xl font-black text-emerald-600"
+              >0</span
+            >
+            <span class="text-[10px] text-slate-400">Soal</span>
+          </div>
+          <div>
+            <span class="text-[10px] text-slate-400 font-bold uppercase block"
+              >PG Salah</span
+            >
+            <span id="modal-wrong" class="text-2xl font-black text-red-500"
+              >0</span
+            >
+            <span class="text-[10px] text-slate-400">Soal</span>
+          </div>
+        </div>
+
+        <div class="bg-blue-50 border border-blue-200 rounded-xl p-3 text-left">
+          <p
+            class="text-xs text-blue-900 font-semibold flex items-center gap-1.5"
+          >
+            <i class="fa-solid fa-file-pen text-blue-600"></i> Catatan Uraian &
+            Simulasi:
+          </p>
+          <p class="text-[11px] text-blue-800 leading-relaxed mt-1">
+            Jawaban dan foto coretan pengerjaan untuk
+            <strong>9 Soal Uraian (Bagian II & III)</strong> telah tersimpan.
+            Klik "Tinjau Pembahasan" untuk mengonfirmasi hasil akhir Anda.
+          </p>
+        </div>
+
+        <p
+          id="modal-feedback"
+          class="text-xs text-slate-600 leading-relaxed font-medium"
+        >
+          Kerja bagus! Anda telah menyelesaikan seluruh soal UTS Sistem Kontrol
+          PLC.
+        </p>
+
+        <div class="flex gap-3 pt-2">
+          <button
+            onclick="closeModalAndReview()"
+            class="flex-1 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition-all"
+          >
+            <i class="fa-solid fa-magnifying-glass mr-1"></i> Tinjau Pembahasan
+          </button>
+          <button
+            onclick="location.reload()"
+            class="flex-1 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold shadow-md transition-all"
+          >
+            <i class="fa-solid fa-rotate-right mr-1"></i> Ulangi Ujian
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+      // TEMPLATE VISUAL CONVEYOR (SOAL PG 11, 12, 13)
+      const CONVEYOR_VISUAL_HTML = `
+        <div class="bg-blue-50/50 border border-blue-100 rounded-2xl p-4 mb-4 flex justify-center items-center shadow-inner">
+          <svg viewBox="0 0 400 135" class="w-full max-w-md h-auto">
+            <rect x="55" y="70" width="12" height="48" fill="#334155" rx="2" />
+            <rect x="215" y="70" width="12" height="48" fill="#334155" rx="2" />
+            <g transform="translate(320, 68)">
+              <rect x="0" y="0" width="52" height="42" fill="#1e293b" rx="4" />
+              <line x1="12" y1="10" x2="12" y2="32" stroke="#64748b" stroke-width="3" stroke-linecap="round"/>
+              <line x1="20" y1="10" x2="20" y2="32" stroke="#64748b" stroke-width="3" stroke-linecap="round"/>
+              <line x1="28" y1="10" x2="28" y2="32" stroke="#64748b" stroke-width="3" stroke-linecap="round"/>
+              <circle cx="42" cy="21" r="8" fill="#0f172a" />
+              <rect x="20" y="42" width="12" height="15" fill="#334155" />
+            </g>
+            <rect x="10" y="40" width="370" height="32" fill="#1e293b" rx="16" stroke="#0f172a" stroke-width="2" />
+            <rect x="14" y="44" width="362" height="24" fill="#334155" rx="12" />
+            <circle cx="35" cy="56" r="8" fill="#94a3b8" stroke="#1e293b" stroke-width="2"/>
+            <circle cx="115" cy="56" r="8" fill="#94a3b8" stroke="#1e293b" stroke-width="2"/>
+            <circle cx="195" cy="56" r="8" fill="#94a3b8" stroke="#1e293b" stroke-width="2"/>
+            <circle cx="275" cy="56" r="8" fill="#94a3b8" stroke="#1e293b" stroke-width="2"/>
+            <circle cx="355" cy="56" r="8" fill="#94a3b8" stroke="#1e293b" stroke-width="2"/>
+            <g transform="translate(180, 6)">
+              <rect x="0" y="0" width="38" height="34" fill="#2563eb" rx="4" stroke="#1d4ed8" stroke-width="2" />
+              <line x1="0" y1="17" x2="38" y2="17" stroke="#1d4ed8" stroke-width="1.5" />
+              <text x="19" y="21" font-family="sans-serif" font-size="9" font-weight="900" fill="#ffffff" text-anchor="middle">BOX B</text>
+            </g>
+          </svg>
+        </div>
+      `;
+
+      // SOAL NO. 16: DIAGRAM BLOK INPUT -> PROSES -> OUTPUT
+      const DIAGRAM_PLC_FLOW_HTML = `
+        <div class="bg-blue-50/50 border border-blue-100 rounded-2xl p-4 sm:p-6 mb-4 flex justify-center items-center shadow-inner">
+          <svg viewBox="0 0 650 140" class="w-full max-w-xl h-auto font-sans">
+            <rect x="10" y="20" width="170" height="100" rx="14" fill="#f0f7ff" stroke="#2563eb" stroke-width="2.5" />
+            <text x="95" y="77" font-size="20" font-weight="900" fill="#0f172a" text-anchor="middle" letter-spacing="0.5">INPUT</text>
+            <g>
+              <line x1="180" y1="70" x2="225" y2="70" stroke="#2563eb" stroke-width="3" />
+              <polygon points="225,63 240,70 225,77" fill="#2563eb" />
+            </g>
+            <rect x="240" y="20" width="170" height="100" rx="14" fill="#f0f7ff" stroke="#2563eb" stroke-width="2.5" />
+            <text x="325" y="77" font-size="20" font-weight="900" fill="#0f172a" text-anchor="middle" letter-spacing="0.5">PROSES</text>
+            <g>
+              <line x1="410" y1="70" x2="455" y2="70" stroke="#2563eb" stroke-width="3" />
+              <polygon points="455,63 470,70 455,77" fill="#2563eb" />
+            </g>
+            <rect x="470" y="20" width="170" height="100" rx="14" fill="#f0f7ff" stroke="#2563eb" stroke-width="2.5" />
+            <text x="555" y="77" font-size="20" font-weight="900" fill="#0f172a" text-anchor="middle" letter-spacing="0.5">OUTPUT</text>
+          </svg>
+        </div>
+      `;
+
+      // SOAL NO. 17: WIRING DIAGRAM KONTROL & DAYA 380V
+      const DUAL_POWER_VISUAL_HTML = `
+        <div class="bg-blue-50/50 border border-blue-100 rounded-2xl p-3 sm:p-5 mb-4 shadow-inner overflow-x-auto">
+          <svg viewBox="0 0 680 340" class="w-full min-w-[550px] max-w-2xl h-auto mx-auto font-sans">
+            <defs>
+              <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#e2e8f0" stroke-width="0.8"/>
+              </pattern>
+            </defs>
+            <rect width="680" height="340" fill="#f8fafc" rx="12"/>
+            <rect width="680" height="340" fill="url(#grid)" rx="12"/>
+            <g transform="translate(20, 20)">
+              <rect width="150" height="75" rx="10" fill="#fef2f2" stroke="#ef4444" stroke-width="2"/>
+              <text x="75" y="22" font-size="10" font-weight="900" fill="#991b1b" text-anchor="middle">PANEL 380V AC</text>
+              <circle cx="40" cy="48" r="8" fill="#ef4444"/>
+              <text x="40" y="51" font-size="9" font-weight="900" fill="#ffffff" text-anchor="middle">R</text>
+              <circle cx="75" cy="48" r="8" fill="#eab308"/>
+              <text x="75" y="51" font-size="9" font-weight="900" fill="#ffffff" text-anchor="middle">S</text>
+              <circle cx="110" cy="48" r="8" fill="#3b82f6"/>
+              <text x="110" y="51" font-size="9" font-weight="900" fill="#ffffff" text-anchor="middle">T</text>
+            </g>
+            <g transform="translate(20, 115)">
+              <rect width="150" height="75" rx="10" fill="#faf5ff" stroke="#a855f7" stroke-width="2"/>
+              <text x="75" y="24" font-size="10" font-weight="900" fill="#6b21a8" text-anchor="middle">SUPLAI 220V AC</text>
+              <text x="75" y="38" font-size="8" font-weight="700" fill="#9333ea" text-anchor="middle">OUTPUT 24VDC</text>
+              <circle cx="35" cy="56" r="4" fill="#22c55e"/>
+              <text x="55" y="59" font-size="8" font-weight="700" fill="#15803d">DC OK</text>
+              <circle cx="125" cy="56" r="5" fill="#0284c7"/>
+            </g>
+            <g transform="translate(20, 210)">
+              <rect width="150" height="70" rx="10" fill="#f0f9ff" stroke="#0284c7" stroke-width="1.5"/>
+              <text x="75" y="22" font-size="10" font-weight="900" fill="#0369a1" text-anchor="middle">PB START (NO)</text>
+              <circle cx="45" cy="48" r="3" fill="#0284c7"/>
+              <circle cx="105" cy="48" r="3" fill="#0284c7"/>
+              <line x1="45" y1="48" x2="95" y2="36" stroke="#d97706" stroke-width="3" stroke-linecap="round"/>
+              <text x="130" y="62" font-size="8" font-weight="900" fill="#d97706">I:0.00</text>
+            </g>
+            <g transform="translate(210, 20)">
+              <rect width="210" height="260" rx="14" fill="#eff6ff" stroke="#2563eb" stroke-width="2.5"/>
+              <text x="105" y="28" font-size="13" font-weight="900" fill="#1e3a8a" text-anchor="middle" letter-spacing="0.5">PLC CONTROLLER</text>
+              <circle cx="40" cy="55" r="4" fill="#22c55e"/>
+              <text x="50" y="58" font-size="8" font-weight="700" fill="#475569">PWR</text>
+              <circle cx="90" cy="55" r="4" fill="#22c55e"/>
+              <text x="100" y="58" font-size="8" font-weight="700" fill="#475569">RUN</text>
+              <circle cx="35" cy="80" r="4" fill="#f59e0b"/>
+              <text x="45" y="83" font-size="8" font-weight="700" fill="#334155">I:0.00</text>
+              <circle cx="110" cy="80" r="4" fill="#22c55e"/>
+              <text x="120" y="83" font-size="8" font-weight="700" fill="#334155">Q:0.00</text>
+              <rect x="20" y="110" width="170" height="120" rx="8" fill="#ffffff" stroke="#2563eb" stroke-width="1.5"/>
+              <text x="105" y="130" font-size="10" font-weight="900" fill="#1e40af" text-anchor="middle">CPU LADDER SCAN</text>
+              <line x1="35" y1="170" x2="60" y2="170" stroke="#2563eb" stroke-width="2"/>
+              <line x1="60" y1="158" x2="60" y2="182" stroke="#2563eb" stroke-width="2"/>
+              <line x1="70" y1="158" x2="70" y2="182" stroke="#2563eb" stroke-width="2"/>
+              <line x1="70" y1="170" x2="135" y2="170" stroke="#2563eb" stroke-width="2"/>
+              <circle cx="145" cy="170" r="10" fill="none" stroke="#2563eb" stroke-width="2"/>
+              <line x1="155" y1="170" x2="175" y2="170" stroke="#2563eb" stroke-width="2"/>
+              <rect x="-8" y="232" width="16" height="16" fill="#f59e0b" rx="3"/>
+              <text x="0" y="244" font-size="7" font-weight="900" fill="#ffffff" text-anchor="middle">I0</text>
+              <rect x="202" y="132" width="16" height="16" fill="#22c55e" rx="3"/>
+              <text x="210" y="143" font-size="7" font-weight="900" fill="#ffffff" text-anchor="middle">Q0</text>
+            </g>
+            <g transform="translate(465, 20)">
+              <rect width="180" height="170" rx="12" fill="#fff7ed" stroke="#f97316" stroke-width="2"/>
+              <rect x="15" y="10" width="150" height="20" rx="4" fill="#f97316"/>
+              <text x="90" y="24" font-size="10" font-weight="900" fill="#ffffff" text-anchor="middle">KONTAKTOR (KM1)</text>
+              <g transform="translate(35, 45)">
+                <line x1="0" y1="0" x2="0" y2="12" stroke="#64748b" stroke-width="2"/>
+                <line x1="0" y1="12" x2="12" y2="28" stroke="#0284c7" stroke-width="2.5"/>
+                <line x1="0" y1="32" x2="0" y2="45" stroke="#64748b" stroke-width="2"/>
+              </g>
+              <g transform="translate(90, 45)">
+                <line x1="0" y1="0" x2="0" y2="12" stroke="#64748b" stroke-width="2"/>
+                <line x1="0" y1="12" x2="12" y2="28" stroke="#0284c7" stroke-width="2.5"/>
+                <line x1="0" y1="32" x2="0" y2="45" stroke="#64748b" stroke-width="2"/>
+              </g>
+              <g transform="translate(145, 45)">
+                <line x1="0" y1="0" x2="0" y2="12" stroke="#64748b" stroke-width="2"/>
+                <line x1="0" y1="12" x2="12" y2="28" stroke="#0284c7" stroke-width="2.5"/>
+                <line x1="0" y1="32" x2="0" y2="45" stroke="#64748b" stroke-width="2"/>
+              </g>
+              <rect x="25" y="105" width="130" height="50" rx="8" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5"/>
+              <text x="90" y="134" font-size="11" font-weight="900" fill="#0369a1" text-anchor="middle">COIL A1-A2</text>
+              <text x="90" y="146" font-size="8" fill="#475569" text-anchor="middle">(Sinyal Kontrol 220V)</text>
+            </g>
+            <g transform="translate(515, 215)">
+              <rect width="130" height="95" rx="14" fill="#f0f9ff" stroke="#0284c7" stroke-width="2"/>
+              <rect x="30" y="-8" width="70" height="16" rx="4" fill="#0284c7"/>
+              <text x="65" y="4" font-size="9" font-weight="900" fill="#ffffff" text-anchor="middle">U V W</text>
+              <circle cx="65" cy="52" r="26" fill="#ffffff" stroke="#0284c7" stroke-width="2"/>
+              <line x1="65" y1="32" x2="65" y2="72" stroke="#0284c7" stroke-width="2"/>
+              <line x1="45" y1="52" x2="85" y2="52" stroke="#0284c7" stroke-width="2"/>
+              <circle cx="65" cy="52" r="8" fill="#0284c7"/>
+            </g>
+            <path d="M 60 40 L 60 10 L 500 10 L 500 65" fill="none" stroke="#ef4444" stroke-width="2" opacity="0.9"/>
+            <path d="M 95 40 L 95 14 L 555 14 L 555 65" fill="none" stroke="#eab308" stroke-width="2" opacity="0.9"/>
+            <path d="M 130 40 L 130 18 L 610 18 L 610 65" fill="none" stroke="#3b82f6" stroke-width="2" opacity="0.9"/>
+            <line x1="500" y1="110" x2="500" y2="195" stroke="#ef4444" stroke-width="2"/>
+            <line x1="500" y1="195" x2="545" y2="195" stroke="#ef4444" stroke-width="2"/>
+            <line x1="545" y1="195" x2="545" y2="207" stroke="#ef4444" stroke-width="2"/>
+            <line x1="555" y1="110" x2="555" y2="190" stroke="#eab308" stroke-width="2"/>
+            <line x1="555" y1="190" x2="580" y2="190" stroke="#eab308" stroke-width="2"/>
+            <line x1="580" y1="190" x2="580" y2="207" stroke="#eab308" stroke-width="2"/>
+            <line x1="610" y1="110" x2="610" y2="207" stroke="#3b82f6" stroke-width="2"/>
+            <path d="M 145 170 L 180 170 L 180 80 L 210 80" fill="none" stroke="#a855f7" stroke-width="2" stroke-dasharray="4,3"/>
+            <path d="M 125 258 L 202 258" fill="none" stroke="#d97706" stroke-width="2.5"/>
+            <path d="M 428 152 L 490 152" fill="none" stroke="#16a34a" stroke-width="2.5"/>
+          </svg>
+        </div>
+      `;
+
+      // SOAL NO. 23: ANIMASI PIPA VENTURI BERGERAK (LIGHT THEME)
+      const VENTURI_ANIMATED_VISUAL_HTML = `
+        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 sm:p-5 mb-4 shadow-sm relative overflow-hidden">
+          <div class="flex items-center justify-between border-b border-slate-200 pb-2 mb-3">
+            <span class="text-xs font-bold text-sky-800 uppercase tracking-wider flex items-center gap-1.5">
+              <i class="fa-solid fa-water text-sky-600"></i> Visualisasi Pipa Venturi & Pressure Gauge
+            </span>
+            <span class="text-xs font-mono font-bold bg-sky-100 text-sky-800 border border-sky-300 px-2.5 py-0.5 rounded-full shadow-sm">
+              Sinyal Input: 15,20 mA
+            </span>
+          </div>
+
+          <div class="w-full flex justify-center py-2">
+            <svg viewBox="0 0 520 200" class="w-full max-w-lg h-auto font-sans">
+              <defs>
+                <pattern id="venturi-grid-light" width="15" height="15" patternUnits="userSpaceOnUse">
+                  <path d="M 15 0 L 0 0 0 15" fill="none" stroke="#e2e8f0" stroke-width="0.8"/>
+                </pattern>
+                <linearGradient id="waterGradLight" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#0284c7" stop-opacity="0.85"/>
+                  <stop offset="50%" stop-color="#38bdf8" stop-opacity="0.95"/>
+                  <stop offset="100%" stop-color="#0284c7" stop-opacity="0.85"/>
+                </linearGradient>
+              </defs>
+
+              <rect x="0" y="0" width="520" height="200" fill="url(#venturi-grid-light)" rx="8"/>
+
+              <!-- VENTURI TUBE BODY -->
+              <path d="M 30,110 L 150,110 L 210,135 L 290,135 L 350,110 L 480,110 L 480,175 L 350,175 L 290,155 L 210,155 L 150,175 L 30,175 Z" fill="url(#waterGradLight)"/>
+
+              <!-- ANIMATED WATER FLOW WAVES -->
+              <path d="M 30,142 Q 90,138 150,142 T 210,145 T 290,145 T 350,142 T 480,142" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.8" class="animate-flow-line"/>
+
+              <!-- ANIMATED MOVING WATER PARTICLES -->
+              <g transform="translate(30, 0)">
+                <circle cx="0" cy="130" r="3.5" fill="#ffffff" class="animate-particle-1"/>
+                <circle cx="0" cy="155" r="2.5" fill="#e0f2fe" class="animate-particle-2"/>
+                <circle cx="0" cy="140" r="3" fill="#ffffff" class="animate-particle-3"/>
+              </g>
+
+              <!-- VENTURI TUBE OUTER PIPE OUTLINE -->
+              <path d="M 25,110 L 150,110 L 210,135 L 290,135 L 350,110 L 485,110 M 25,175 L 150,175 L 210,155 L 290,155 L 350,175 L 485,175" fill="none" stroke="#475569" stroke-width="4" stroke-linecap="round"/>
+
+              <!-- MANOMETER TUBES -->
+              <rect x="110" y="65" width="16" height="45" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
+              <rect x="112" y="75" width="12" height="35" fill="#0284c7" opacity="0.85"/>
+              <text x="118" y="58" font-size="8" font-weight="900" fill="#0369a1" text-anchor="middle">P1 (Inlet)</text>
+
+              <rect x="242" y="85" width="16" height="50" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
+              <rect x="244" y="115" width="12" height="20" fill="#0284c7" opacity="0.85"/>
+              <text x="250" y="78" font-size="8" font-weight="900" fill="#475569" text-anchor="middle">P2 (Throat)</text>
+
+              <!-- PRESSURE GAUGE DIAL -->
+              <g transform="translate(250, 42)">
+                <circle cx="0" cy="0" r="28" fill="#ffffff" stroke="#0284c7" stroke-width="3"/>
+                <circle cx="0" cy="0" r="24" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+                
+                <text x="0" y="-12" font-size="6" font-weight="900" fill="#0f172a" text-anchor="middle">7 bar</text>
+                <text x="-16" y="10" font-size="6" font-weight="900" fill="#0f172a" text-anchor="middle">0</text>
+                <text x="16" y="10" font-size="6" font-weight="900" fill="#0f172a" text-anchor="middle">10</text>
+                
+                <line x1="0" y1="0" x2="11" y2="-12" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round"/>
+                <circle cx="0" cy="0" r="3.5" fill="#0f172a"/>
+              </g>
+
+              <!-- LABELS & ARROWS -->
+              <g transform="translate(45, 142)">
+                <line x1="0" y1="0" x2="25" y2="0" stroke="#d97706" stroke-width="2"/>
+                <polygon points="25,-3 32,0 25,3" fill="#d97706"/>
+                <text x="0" y="-8" font-size="8" font-weight="900" fill="#b45309">FLUIDA INLET</text>
+              </g>
+              <text x="445" y="145" font-size="9" font-weight="900" fill="#475569">Outlet</text>
+            </svg>
+          </div>
+        </div>
+      `;
+
+      // SOAL NO. 24: ANIMASI VFD MESIN PENGHANCUR BATU (BATU BESAR -> HANCUR JADI BATU KECIL BANYAK)
+      const VFD_CRUSHER_ANIMATED_VISUAL_HTML = `
+        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 sm:p-5 mb-4 shadow-sm relative overflow-hidden">
+          <div class="flex items-center justify-between border-b border-slate-200 pb-2 mb-3">
+            <span class="text-xs font-bold text-amber-800 uppercase tracking-wider flex items-center gap-1.5">
+              <i class="fa-solid fa-gears text-amber-600"></i> Visualisasi Mesin Crusher & Inverter VFD
+            </span>
+            <span class="text-xs font-mono font-bold bg-amber-100 text-amber-900 border border-amber-300 px-2.5 py-0.5 rounded-full shadow-sm">
+              Sinyal PLC: 8,6 V DC
+            </span>
+          </div>
+
+          <div class="w-full flex justify-center py-2">
+            <svg viewBox="0 0 540 220" class="w-full max-w-lg h-auto font-sans">
+              <defs>
+                <pattern id="crusher-grid-light" width="15" height="15" patternUnits="userSpaceOnUse">
+                  <path d="M 15 0 L 0 0 0 15" fill="none" stroke="#e2e8f0" stroke-width="0.8"/>
+                </pattern>
+              </defs>
+              <rect x="0" y="0" width="540" height="220" fill="url(#crusher-grid-light)" rx="8"/>
+
+              <!-- 1. INVERTER VFD CONTROLLER -->
+              <g transform="translate(20, 25)">
+                <rect width="85" height="120" rx="8" fill="#ffffff" stroke="#2563eb" stroke-width="2"/>
+                <rect x="10" y="12" width="65" height="28" rx="4" fill="#f0f9ff" stroke="#0284c7" stroke-width="1"/>
+                <text x="42.5" y="25" font-size="7" font-weight="900" fill="#15803d" text-anchor="middle">INPUT PLC</text>
+                <text x="42.5" y="35" font-size="8" font-weight="900" fill="#0284c7" text-anchor="middle">8.6 V DC</text>
+
+                <circle cx="42.5" cy="58" r="8" fill="#cbd5e1" stroke="#64748b" stroke-width="1.5"/>
+                <rect x="15" y="80" width="22" height="10" rx="2" fill="#ef4444"/>
+                <rect x="48" y="80" width="22" height="10" rx="2" fill="#22c55e"/>
+                <text x="42.5" y="105" font-size="8" font-weight="900" fill="#334155" text-anchor="middle">INVERTER VFD</text>
+              </g>
+
+              <!-- DOTTED ANIMATED SIGNAL LINE -->
+              <path d="M 105 85 L 175 85" fill="none" stroke="#d97706" stroke-width="2.5" class="animate-flow-line"/>
+
+              <!-- 2. MOTOR 3-PHASE -->
+              <g transform="translate(175, 55)">
+                <rect width="65" height="60" rx="6" fill="#0284c7" stroke="#0369a1" stroke-width="2"/>
+                <line x1="10" y1="10" x2="10" y2="50" stroke="#0369a1" stroke-width="2"/>
+                <line x1="20" y1="10" x2="20" y2="50" stroke="#0369a1" stroke-width="2"/>
+                <line x1="30" y1="10" x2="30" y2="50" stroke="#0369a1" stroke-width="2"/>
+                
+                <g transform="translate(65, 30)">
+                  <circle cx="0" cy="0" r="14" fill="#ffffff" stroke="#0284c7" stroke-width="2"/>
+                  <g class="animate-spin-fast">
+                    <line x1="-10" y1="0" x2="10" y2="0" stroke="#0284c7" stroke-width="2.5"/>
+                    <line x1="0" y1="-10" x2="0" y2="10" stroke="#0284c7" stroke-width="2.5"/>
+                  </g>
+                </g>
+                <text x="32.5" y="73" font-size="7" font-weight="900" fill="#0284c7" text-anchor="middle">MOTOR 3-PHASE</text>
+              </g>
+
+              <!-- MECHANICAL BELT -->
+              <line x1="240" y1="85" x2="330" y2="50" stroke="#d97706" stroke-width="2" stroke-dasharray="4,2"/>
+
+              <!-- 3. HOPPER BEBATUAN (CORONG ATAS) -->
+              <polygon points="310,10 390,10 370,45 330,45" fill="#cbd5e1" stroke="#64748b" stroke-width="2"/>
+              <text x="350" y="22" font-size="7" font-weight="900" fill="#1e293b" text-anchor="middle">HOPPER BEBATUAN</text>
+
+              <!-- CRUSHER HOUSING BODY -->
+              <rect x="315" y="45" width="70" height="95" fill="#f1f5f9" stroke="#64748b" stroke-width="2" rx="4"/>
+
+              <!-- ============================================================ -->
+              <!-- ANIMATED ROCKS: BATU BESAR -> HANCUR JADI BATU KECIL BANYAK -->
+              <!-- ============================================================ -->
+              <g transform="translate(350, 25)">
+                <!-- STREAM A: BATU BESAR 1 & PECAHAN BATU KECIL -->
+                <path d="M -9,-7 L 7,-9 L 10,2 L 3,10 L -8,7 Z" fill="#475569" stroke="#1e293b" stroke-width="1.5" class="animate-big-rock-stream1" />
+                
+                <!-- BANYAK BATU KECIL STREAM A -->
+                <circle cx="0" cy="0" r="3" fill="#475569" class="animate-small-1a" />
+                <circle cx="0" cy="0" r="2.5" fill="#64748b" class="animate-small-1b" />
+                <path d="M -2,-2 L 2,-1 L 1,2 L -2,1 Z" fill="#334155" class="animate-small-1c" />
+
+                <!-- STREAM B: BATU BESAR 2 & PECAHAN BATU KECIL -->
+                <path d="M -10,-4 L 5,-10 L 11,3 L 0,9 L -7,6 Z" fill="#334155" stroke="#0f172a" stroke-width="1.5" class="animate-big-rock-stream2" />
+                
+                <!-- BANYAK BATU KECIL STREAM B -->
+                <circle cx="0" cy="0" r="2.8" fill="#334155" class="animate-small-2a" />
+                <circle cx="0" cy="0" r="2.2" fill="#475569" class="animate-small-2b" />
+                <circle cx="0" cy="0" r="2.6" fill="#64748b" class="animate-small-2c" />
+              </g>
+
+              <!-- ROTATING GEAR 1 (CW) -->
+              <g transform="translate(338, 75)">
+                <g class="animate-spin-cw">
+                  <circle cx="0" cy="0" r="16" fill="#94a3b8" stroke="#334155" stroke-width="1.5"/>
+                  <rect x="-18" y="-3" width="36" height="6" fill="#475569" rx="1"/>
+                  <rect x="-3" y="-18" width="6" height="36" fill="#475569" rx="1"/>
+                </g>
+                <circle cx="0" cy="0" r="5" fill="#0f172a"/>
+              </g>
+
+              <!-- ROTATING GEAR 2 (CCW) -->
+              <g transform="translate(362, 75)">
+                <g class="animate-spin-ccw">
+                  <circle cx="0" cy="0" r="16" fill="#94a3b8" stroke="#334155" stroke-width="1.5"/>
+                  <rect x="-18" y="-3" width="36" height="6" fill="#475569" rx="1"/>
+                  <rect x="-3" y="-18" width="6" height="36" fill="#475569" rx="1"/>
+                </g>
+                <circle cx="0" cy="0" r="5" fill="#0f172a"/>
+              </g>
+
+              <!-- 4. CONVEYOR HASIL PENGHANCURAN -->
+              <rect x="300" y="165" width="200" height="12" fill="#334155" rx="6" stroke="#1e293b" stroke-width="1.5"/>
+              <circle cx="310" cy="171" r="5" fill="#94a3b8"/>
+              <circle cx="490" cy="171" r="5" fill="#94a3b8"/>
+
+              <text x="400" y="192" font-size="8" font-weight="900" fill="#0284c7" text-anchor="middle">CONVEYOR HASIL PENGHANCURAN</text>
+            </svg>
+          </div>
+        </div>
+      `;
+
+      // COMBINED DATA SOAL (15 PG + 7 URAIAN KONSEPTUAL + 2 KALKULASI = 24 SOAL)
+      const questionsData = [
+        // ==========================================
+        // BAGIAN I: PILIHAN GANDA (1-15)
+        // ==========================================
+        {
+          id: 1,
+          type: "pg",
+          text: "Salah satu alasan PLC dikembangkan untuk menggantikan sistem kontrol berbasis relay konvensional adalah ...",
+          options: [
+            "PLC membutuhkan lebih banyak kabel",
+            "Sistem relay sulit dimodifikasi dan membutuhkan banyak komponen",
+            "PLC tidak dapat diprogram",
+            "Relay tidak membutuhkan sumber listrik",
+            "PLC hanya dapat digunakan untuk motor",
+          ],
+          key: 1,
+          explanation:
+            "Materi menjelaskan bahwa programmable controller dikembangkan untuk mengatasi biaya tinggi, kerumitan wiring kabel, serta keterbatasan sistem kontrol berbasis relay konvensional.",
+        },
+        {
+          id: 2,
+          type: "pg",
+          text: "Sebuah mesin membutuhkan PLC yang memungkinkan penambahan modul I/O dan modul komunikasi sesuai perkembangan kebutuhan mesin. Jenis PLC yang paling sesuai adalah ...",
+          options: [
+            "Compact PLC",
+            "Modular PLC",
+            "Relay timer",
+            "Push button controller",
+            "Single relay controller",
+          ],
+          key: 1,
+          explanation:
+            "Modular PLC menggunakan chassis/rack dan memungkinkan modul I/O, komunikasi, atau modul khusus ditambahkan sesuai perkembangan skala industri.",
+        },
+        {
+          id: 3,
+          type: "pg",
+          text: "Perhatikan alur sistem berikut:<br><span class='font-mono text-blue-700 font-semibold'>PLN 220V → Power Supply → PLC → Output PLC → Kontaktor → Motor 3-Phase</span><br><br>Fungsi kontaktor pada sistem tersebut adalah ...",
+          options: [
+            "Mengubah program PLC",
+            "Menyimpan program PLC",
+            "Menjadi perantara pengendalian daya menuju motor",
+            "Menggantikan CPU PLC",
+            "Mengubah motor menjadi sensor",
+          ],
+          key: 2,
+          explanation:
+            "Kontaktor berfungsi sebagai sakelar daya/perantara antara sinyal kontrol kecil dari PLC (220V) untuk mengendalikan arus daya besar (380V) menuju motor 3-phase.",
+        },
+        {
+          id: 4,
+          type: "pg",
+          text: "Perhatikan kondisi berikut:<br>• PLN 220 V : <strong>ON</strong><br>• PLN 380 V : <strong>OFF</strong><br>• PB START : <strong>Ditekan</strong><br>• Output PLC : <strong>ON</strong><br><br>Menurut prinsip simulasi sistem kelistrikan, kondisi yang paling tepat adalah ...",
+          options: [
+            "Motor pasti berputar",
+            "Motor tidak dapat berputar karena sumber daya 380 V motor OFF",
+            "PLC langsung rusak",
+            "PB START tidak dapat bekerja",
+            "Kontaktor berubah menjadi sensor",
+          ],
+          key: 1,
+          explanation:
+            "Pada simulasi, sumber 220 V digunakan khusus untuk kontrol/PLC, sedangkan sumber 380 V digunakan sebagai daya utama motor 3-phase. Jika 380 V OFF, motor tidak mendapat daya listrik.",
+        },
+        {
+          id: 5,
+          type: "pg",
+          text: "Sebuah sistem memiliki PLC dengan sumber kontrol 220 V dan motor 3-phase dengan sumber daya 380 V. Seorang teknisi menyimpulkan bahwa jika PLC menyala maka motor pasti dapat berputar.<br><br>Pernyataan tersebut ...",
+          options: [
+            "Benar, karena PLC langsung memberikan 380 V ke motor",
+            "Benar, karena CPU menggantikan kontaktor",
+            "Salah, karena sistem kontrol PLC dan sumber daya motor memiliki fungsi yang berbeda",
+            "Salah, karena PLC hanya bekerja menggunakan 380 V",
+            "Benar, karena input PLC langsung terhubung ke motor",
+          ],
+          key: 2,
+          explanation:
+            "Salah, karena sistem kontrol PLC (220V) dan sirkuit sumber daya motor (380V) terpisah. PLC menyala hanya menjamin logika kontrol bekerja, bukan ketersediaan daya motor.",
+        },
+        {
+          id: 6,
+          type: "pg",
+          text: "Manakah yang merupakan contoh sensor pada sistem PLC?",
+          options: [
+            "Solenoid valve",
+            "Motor listrik",
+            "Proximity sensor",
+            "Kontaktor",
+            "Lampu indikator",
+          ],
+          key: 2,
+          explanation:
+            "Proximity sensor adalah perangkat input (sensor) yang mendeteksi jarak/keberadaan benda secara terpisah tanpa kontak fisik.",
+        },
+        {
+          id: 7,
+          type: "pg",
+          text: "Sebuah sistem conveyor menggunakan: <em>Push button START, Proximity sensor, PLC, Solenoid valve, Motor conveyor</em>. Ketika benda terdeteksi oleh proximity sensor, PLC harus mengaktifkan solenoid valve untuk mendorong benda keluar dari conveyor.<br><br>Urutan kerja sinyal yang paling tepat adalah ...",
+          options: [
+            "Proximity → Output PLC → CPU → Solenoid",
+            "Proximity → Input PLC → CPU → Output PLC → Solenoid",
+            "Solenoid → Input PLC → CPU → Proximity",
+            "CPU → Proximity → Input → Solenoid",
+            "Proximity → Solenoid → Input PLC → CPU",
+          ],
+          key: 1,
+          explanation:
+            "Urutan aliran sinyal otomasi: Proximity Sensor (mendeteksi) → Terminal Input PLC → CPU (eksekusi program) → Terminal Output PLC → Solenoid Valve (aktuator pendorong).",
+        },
+        {
+          id: 8,
+          type: "pg",
+          text: "Salah satu keuntungan utama penggunaan sinyal standar 4–20 mA pada industri adalah ...",
+          options: [
+            "Tidak membutuhkan sumber listrik",
+            "Lebih tahan terhadap gangguan elektromagnetik dan pengaruh resistansi kabel",
+            "Hanya dapat digunakan pada jarak sangat pendek",
+            "Hanya dapat digunakan untuk sensor suhu",
+            "Tidak dapat digunakan untuk PLC",
+          ],
+          key: 1,
+          explanation:
+            "Sinyal arus (4–20 mA) tidak terpengaruh penurunan tegangan akibat hambatan panjang kabel serta lebih kebal terhadap kebisingan (noise) elektromagnetik.",
+        },
+        {
+          id: 9,
+          type: "pg",
+          visualHTML: `
+            <div class="bg-blue-50/50 border border-blue-100 rounded-2xl p-4 mb-4 flex flex-col sm:flex-row items-center justify-around gap-5 shadow-inner">
+              <div class="flex flex-col items-center">
+                <div class="w-40 bg-blue-900 text-sky-200 rounded-t-xl px-2 py-1 text-center font-bold text-[10px] tracking-wider uppercase border-b-2 border-blue-400 shadow-sm">
+                  <i class="fa-solid fa-satellite-dish mr-1"></i> Transmitter Level
+                </div>
+                <div class="relative w-40 h-52 bg-slate-100 border-2 border-slate-400 border-t-0 rounded-b-2xl overflow-hidden shadow-md flex flex-col justify-end">
+                  <div class="absolute top-0 inset-x-0 h-1/2 bg-gradient-to-b from-blue-400/30 to-transparent animate-pulse pointer-events-none"></div>
+                  <div class="absolute top-2 left-2 z-20 text-[9px] font-mono font-bold text-slate-800 bg-white/95 border border-slate-300 px-1.5 py-0.5 rounded shadow-sm">
+                    5.0 m (100%)
+                  </div>
+                  <div class="absolute top-1/2 -translate-y-1/2 left-2 z-20 text-[9px] font-mono font-bold text-blue-900 bg-blue-100 border border-blue-300 px-1.5 py-0.5 rounded shadow-sm">
+                    2.5 m (50%)
+                  </div>
+                  <div class="absolute bottom-2 left-2 z-20 text-[9px] font-mono font-bold text-slate-800 bg-white/95 border border-slate-300 px-1.5 py-0.5 rounded shadow-sm">
+                    0.0 m (0%)
+                  </div>
+                  <div class="w-full h-1/2 bg-blue-500/85 relative border-t-2 border-blue-300 flex items-center justify-center animate-wave">
+                    <span class="text-white text-[11px] font-black font-mono tracking-wider drop-shadow-md bg-blue-950/50 px-2 py-0.5 rounded-full">
+                      FLUIDA: 2.5 m
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="space-y-2 text-xs font-medium w-full sm:w-auto">
+                <div class="bg-white p-2.5 rounded-xl border border-slate-200 shadow-sm flex items-center gap-2.5">
+                  <i class="fa-solid fa-ruler-vertical text-blue-600 text-sm"></i>
+                  <span>Rentang Ukur Tangki: <strong>0 – 5 Meter</strong></span>
+                </div>
+                <div class="bg-white p-2.5 rounded-xl border border-slate-200 shadow-sm flex items-center gap-2.5">
+                  <i class="fa-solid fa-wave-square text-sky-600 text-sm"></i>
+                  <span>Sinyal Keluaran Standar: <strong>4 – 20 mA</strong></span>
+                </div>
+                <div class="bg-blue-50 p-2.5 rounded-xl border border-blue-200 text-blue-900 font-semibold flex items-center gap-2.5">
+                  <i class="fa-solid fa-water text-blue-600 text-sm"></i>
+                  <span>Hasil Pengukuran Sensor: <strong class="text-blue-700 font-mono text-sm">2.5 Meter</strong></span>
+                </div>
+              </div>
+            </div>
+          `,
+          text: "Sebuah level transmitter memiliki range 0–5 meter dengan sinyal keluaran 4–20 mA.<br>Jika level cairan pada tangki berada pada tinggi <strong>2,5 meter</strong> (seperti pada ilustrasi di atas), berapakah besar sinyal keluarannya?",
+          options: ["4 mA", "8 mA", "10 mA", "12 mA", "20 mA"],
+          key: 3,
+          explanation:
+            "Span sinyal = 20 mA − 4 mA = 16 mA.<br>Persentase level = 2,5m / 5m = 50%.<br>Sinyal keluar = 4 mA + (50% × 16 mA) = 4 + 8 = <strong>12 mA</strong>.",
+        },
+        {
+          id: 10,
+          type: "pg",
+          text: "Sistem kontrol yang tidak menggunakan sinyal umpan balik (feedback) dari keluaran/output disebut ...",
+          options: [
+            "Closed-loop",
+            "Open-loop",
+            "Feedback-loop",
+            "PID-loop",
+            "Servo-loop",
+          ],
+          key: 1,
+          explanation:
+            "Sistem Open-loop bekerja tanpa mengukur atau merespon balik nilai keluaran aktual ke controller.",
+        },
+        {
+          id: 11,
+          type: "pg",
+          visualHTML: CONVEYOR_VISUAL_HTML,
+          text: "Dalam simulasi sistem conveyor di atas, kondisi awal adalah:<br>• Setpoint (SP) = 80 RPM<br>• Process Value (PV) = 80 RPM<br>Kemudian beban berat tambahan (Box B) diberikan sehingga kecepatan motor turun menjadi 55 RPM.<br><br>Pada sistem <strong>Open-loop</strong>, apa yang akan terjadi?",
+          options: [
+            "PLC otomatis menaikkan daya berdasarkan feedback",
+            "PLC mengetahui kecepatan turun melalui encoder",
+            "PLC tetap memberikan daya berdasarkan pengaturan awal",
+            "Motor langsung berhenti secara otomatis",
+            "Sensor otomatis menaikkan RPM motor",
+          ],
+          key: 2,
+          explanation:
+            "Pada sistem open-loop, tidak ada umpan balik sensor. PLC tidak mengetahui perubahan kecepatan aktual akibat beban dan tetap memberikan keluaran daya konstan sesuai pengaturan awal.",
+        },
+        {
+          id: 12,
+          type: "pg",
+          visualHTML: CONVEYOR_VISUAL_HTML,
+          text: "Pada sistem <strong>Closed-loop</strong> conveyor di atas, rotary encoder mendeteksi kecepatan aktual motor turun dari 80 RPM menjadi 55 RPM saat beban melintas.<br><br>Apa tindakan yang dilakukan oleh sistem PID?",
+          options: [
+            "Mengabaikan perubahan tersebut",
+            "Menghentikan PLC secara paksa",
+            "Menghitung error dan melakukan koreksi terhadap daya output",
+            "Memutus kabel sensor encoder",
+            "Mengubah sistem secara otomatis menjadi open-loop",
+          ],
+          key: 2,
+          explanation:
+            "Sistem PID closed-loop membaca sinyal umpan balik encoder, menghitung selisih error (SP - PV), lalu mengoreksi output daya menuju motor untuk mengembalikan kecepatan ke 80 RPM.",
+        },
+        {
+          id: 13,
+          type: "pg",
+          visualHTML: CONVEYOR_VISUAL_HTML,
+          text: "Sebuah conveyor memiliki target kecepatan (Setpoint) 80 RPM, tetapi sensor membaca kecepatan aktual (Process Value) sebesar 55 RPM saat beban melintas.<br><br>Berapakah nilai error pada sistem tersebut?",
+          options: ["15 RPM", "20 RPM", "25 RPM", "30 RPM", "35 RPM"],
+          key: 2,
+          explanation:
+            "Rumus Nilai Error: <strong>Error = SP − PV</strong> = 80 RPM − 55 RPM = <strong>25 RPM</strong>.",
+        },
+        {
+          id: 14,
+          type: "pg",
+          text: "Pernyataan yang paling tepat mengenai System / Executive Memory pada PLC adalah ...",
+          options: [
+            "Dapat bebas diubah oleh programmer pengguna",
+            "Berisi program aplikasi pengguna (Ladder Diagram)",
+            "Diprogram oleh pabrikan dan digunakan untuk sistem operasi/diagnostik PLC",
+            "Hanya menyimpan status push button sementara",
+            "Digunakan khusus untuk menyimpan nilai RPM motor",
+          ],
+          key: 2,
+          explanation:
+            "System/Executive Memory berisi sistem operasi (firmware) dan fungsi diagnostik internal PLC yang diisikan permanen oleh pabrikan pembuat PLC.",
+        },
+        {
+          id: 15,
+          type: "pg",
+          text: "Sebuah PLC mengalami kehilangan suplai daya utama. Setelah dinyalakan kembali, data operasional tertentu (holding data) yang disimpan di RAM tidak lagi tersedia.<br><br>Berdasarkan materi, kemungkinan penyebab utamanya adalah ...",
+          options: [
+            "ALU rusak",
+            "Internal Bus terputus",
+            "RAM kehilangan suplai daya dan battery backup tidak mempertahankan data",
+            "User Program Area berubah menjadi ROM",
+            "Control Unit tidak dapat melakukan operasi logika",
+          ],
+          key: 2,
+          explanation:
+            "RAM bersifat volatile (membutuhkan arus listrik kontinu). Jika listrik padam dan Battery Backup habis/tidak bekerja, maka seluruh data pada RAM akan hilang.",
+        },
+
+        // ==========================================
+        // BAGIAN II: SOAL URAIAN KONSEPTUAL (16-22)
+        // ==========================================
+        {
+          id: 16,
+          type: "uraian",
+          visualHTML: DIAGRAM_PLC_FLOW_HTML,
+          text: "Perhatikan diagram blok sistem PLC di atas!<br><br>Jelaskan secara rinci fungsi dari masing-masing bagian (<strong>Input</strong>, <strong>Proses / CPU PLC</strong>, dan <strong>Output</strong>) pada sistem PLC!",
+          explanation:
+            "<strong>Acuan Jawaban Uraian:</strong><br>" +
+            "• <strong>Input:</strong> Menerima sinyal kondisi fisik dari perangkat luar (seperti sakelar/sensor) dan mengonversinya menjadi sinyal digital yang aman untuk CPU.<br>" +
+            "• <strong>Proses (CPU PLC):</strong> Otak PLC yang mengeksekusi logika program (Ladder Diagram), memproses data input, dan mengambil keputusan.<br>" +
+            "• <strong>Output:</strong> Mengirimkan sinyal instruksi/perintah hasil pemrosesan CPU menuju aktuator fisik di lapangan (seperti kontaktor, motor, atau solenoid valve).",
+        },
+        {
+          id: 17,
+          type: "uraian",
+          visualHTML: DUAL_POWER_VISUAL_HTML,
+          text: "Perhatikan diagram pengkabelan (wiring) simulasi PLC di atas!<br>Pada sistem tersebut terdapat dua sumber daya listrik:<br>• <strong>PLN 220 V AC</strong> untuk sistem suplai kontrol / PLC<br>• <strong>PLN 380 V AC (R-S-T)</strong> untuk sirkuit daya motor 3-phase<br><br>Jelaskan mengapa kedua sumber tersebut memiliki fungsi yang berbeda dalam sistem kelistrikan industri!",
+          explanation:
+            "<strong>Acuan Jawaban Uraian:</strong><br>" +
+            "• <strong>PLN 220 V AC (Sistem Kontrol):</strong> Berfungsi memberikan daya khusus untuk mengoperasikan komponen pengendali berdaya rendah (Power Supply PLC, CPU PLC, sakelar PB START, dan Koil A1-A2 Kontaktor) secara aman.<br>" +
+            "• <strong>PLN 380 V AC 3-Phase (Sistem Daya Utama):</strong> Berfungsi khusus memberikan arus kuat 3-phase (R-S-T) melintasi kontak utama kontaktor langsung menuju terminal Motor 3-Phase (U-V-W) untuk memutar beban mekanis berat.<br>" +
+            "• <em>Tujuan pemisahan: Untuk isolasi keamanan, mencegah gangguan/lonjakan arus motor merusak CPU PLC, serta memastikan sistem kontrol tetap aktif memantau kondisi meskipun daya motor dipadamkan.</em>",
+        },
+        {
+          id: 18,
+          type: "uraian",
+          text: "Jelaskan perbedaan antara <strong>perangkat input</strong> dan <strong>perangkat output</strong> pada PLC, serta berikan masing-masing <strong>dua contoh</strong> perangkatnya!",
+          explanation:
+            "<strong>Acuan Jawaban Uraian:</strong><br>" +
+            "• <strong>Perangkat Input:</strong> Komponen yang berfungsi mendeteksi atau memberikan sinyal masukan dari luar menuju ke terminal input PLC.<br>" +
+            "  - <em>Contoh Input:</em> Push Button (Tombol), Proximity Sensor, Limit Switch, Sensor Level.<br>" +
+            "• <strong>Perangkat Output:</strong> Komponen aktuator yang menerima sinyal perintah dari terminal output PLC untuk melakukan aksi/gerakan.<br>" +
+            "  - <em>Contoh Output:</em> Kontaktor Magnet, Solenoid Valve, Lampu Indikator, Buzzer.",
+        },
+        {
+          id: 19,
+          type: "uraian",
+          text: "Sebutkan masing-masing <strong>dua contoh</strong> perangkat <strong>analog input</strong> dan <strong>analog output</strong> yang umum digunakan dalam sistem otomasi PLC!",
+          explanation:
+            "<strong>Acuan Jawaban Uraian:</strong><br>" +
+            "• <strong>Contoh Analog Input:</strong><br>" +
+            "  1. Sensor Suhu (Thermocouple / RTD PT100) - mengubah besaran suhu menjadi sinyal kontinu.<br>" +
+            "  2. Pressure Transmitter / Level Transmitter (sinyal 4-20 mA atau 0-10 V).<br>" +
+            "• <strong>Contoh Analog Output:</strong><br>" +
+            "  1. Variable Frequency Drive (VFD / Inverter) - untuk mengatur kecepatan putar RPM motor secara halus.<br>" +
+            "  2. Control Valve (Modulating Proportional Valve) - untuk membuka/menutup persentase aliran katup cairan/gas.",
+        },
+        {
+          id: 20,
+          type: "uraian",
+          text: "Jelaskan perbedaan dasar antara sistem kontrol <strong>open-loop</strong> (lingkar terbuka) dan <strong>closed-loop</strong> (lingkar tertutup)!",
+          explanation:
+            "<strong>Acuan Jawaban Uraian:</strong><br>" +
+            "• <strong>Open-loop:</strong> Sistem kontrol yang bekerja tanpa umpan balik (feedback). Keluaran aktual tidak diukur, sehingga PLC tidak tahu apakah target tercapai atau terdapat gangguan beban.<br>" +
+            "• <strong>Closed-loop:</strong> Sistem kontrol yang menggunakan sensor umpan balik (seperti encoder/sensor arus). Nilai keluaran aktual terus diukur dan dibandingkan dengan target (Setpoint) untuk melakukan koreksi error secara otomatis.",
+        },
+        {
+          id: 21,
+          type: "uraian",
+          text: "Jelaskan perbedaan fungsi antara <strong>Executive/System Memory</strong> dan <strong>Application Memory</strong> pada PLC!",
+          explanation:
+            "<strong>Acuan Jawaban Uraian:</strong><br>" +
+            "• <strong>Executive / System Memory:</strong> Memori yang diprogram permanen oleh pabrikan pembuat PLC (Firmware/OS PLC). Berfungsi menjalankan fungsi internal CPU, siklus scanning, diagnostik hardware, dan komunikasi.<br>" +
+            "• <strong>Application Memory (User Memory):</strong> Memori tempat menyimpan program logika buatan programmer (seperti diagram tangga/Ladder Diagram) serta variabel data operasional pengguna.",
+        },
+        {
+          id: 22,
+          type: "uraian",
+          text: "Perhatikan kasus berikut:<br>• Sebuah PLC dimatikan selama beberapa jam kemudian dinyalakan kembali.<br>• Setelah PLC menyala, program sistem PLC tetap tersedia, tetapi data operasional tertentu yang berada pada RAM hilang.<br><br>Jelaskan mengapa kondisi tersebut dapat terjadi berdasarkan konsep <strong>volatile & non-volatile memory</strong> serta fungsi <strong>battery backup</strong>!",
+          explanation:
+            "<strong>Acuan Jawaban Uraian:</strong><br>" +
+            "• Program sistem tetap ada karena disimpan dalam <strong>Non-Volatile Memory</strong> (seperti ROM/EEPROM/Flash) yang sifatnya permanen dan tidak hilang walaupun arus listrik mati.<br>" +
+            "• Data operasional hilang karena disimpan pada <strong>RAM</strong> yang bersifat <strong>Volatile</strong> (butuh pasokan listrik kontinu untuk mempertahankan data).<br>" +
+            "• Hilangnya data RAM menunjukkan bahwa <strong>Battery Backup PLC</strong> dalam kondisi habis, rusak, atau tidak terpasang, sehingga tidak mampu memberikan daya cadangan ke RAM saat pasokan listrik utama mati.",
+        },
+
+        // ==========================================
+        // BAGIAN III: KALKULASI & SIMULASI ANALOG (23-24)
+        // ==========================================
+        {
+          id: 23,
+          type: "uraian",
+          visualHTML: VENTURI_ANIMATED_VISUAL_HTML,
+          text: `
+            <div class="space-y-3">
+              <div class="bg-blue-50 border border-blue-200 rounded-xl p-3 sm:p-4 space-y-2 text-xs">
+                <span class="font-extrabold text-blue-900 uppercase block tracking-wider"><i class="fa-solid fa-sliders text-blue-600 mr-1"></i> Spesifikasi Sistem Venturi & Transducer:</span>
+                <ul class="list-disc list-inside space-y-1 text-blue-950 font-medium">
+                  <li>Rentang Sinyal Analog Arus Transducer (I): <strong>4,00 – 20,00 mA</strong></li>
+                  <li>Rentang Pembacaan Tekanan Air Inlet (P1): <strong>0,00 – 10,00 bar</strong></li>
+                  <li>Rentang Kapasitas Debit Air Maksimal (Q): <strong>0,0 – 500,0 Liter/menit (L/min)</strong></li>
+                  <li>Pembacaan Arus Sinyal Transmitter Saat Ini: <span class="bg-blue-600 text-white font-mono px-2 py-0.5 rounded font-bold">15,20 mA</span></li>
+                </ul>
+              </div>
+
+              <div class="bg-amber-50 border border-amber-200 rounded-xl p-3 text-xs space-y-1">
+                <span class="font-extrabold text-amber-900 block"><i class="fa-solid fa-calculator text-amber-600 mr-1"></i> Rumus Persamaan Scaling Sinyal Analog 4-20 mA:</span>
+                <div class="p-2 bg-white rounded-lg border border-amber-200 text-center font-mono font-bold text-amber-950 text-sm overflow-x-auto">
+                  Y = [ (I - I_min) / (I_max - I_min) ] × (Y_max - Y_min) + Y_min
+                </div>
+              </div>
+
+              <p class="text-xs sm:text-sm font-semibold text-slate-800 leading-relaxed">
+                <strong>Instruksi Pengerjaan:</strong> Hitunglah nilai <strong>Tekanan Air Inlet (bar)</strong> dan <strong>Debit Air (L/min)</strong> berdasarkan sinyal masuk <strong>15,20 mA</strong>. Tuliskan langkah pengerjaan matematis secara lengkap pada kertas/buku kerja Anda, unggah fotonya pada tombol di bawah, serta ketikkan hasil akhirnya pada kolom jawaban.
+              </p>
+            </div>
+          `,
+          explanation:
+            "<strong>Acuan Kunci & Langkah Perhitungan Uraian Soal #23:</strong><br>" +
+            "• <strong>Faktor Scaling Sinyal Arus:</strong><br>" +
+            "  - I = 15,20 mA, I_min = 4,00 mA, I_max = 20,00 mA<br>" +
+            "  - Persentase = (15,20 - 4,00) / (20,00 - 4,00) = 11,20 / 16,00 = 0,70 (atau <strong>70%</strong>)<br><br>" +
+            "• <strong>1) Perhitungan Tekanan Air Inlet (P1):</strong><br>" +
+            "  - P1 = 0,70 × (10,00 - 0,00) + 0,00 = 0,70 × 10,00 = <strong>7,00 bar</strong><br><br>" +
+            "• <strong>2) Perhitungan Debit Air Maksimal (Q):</strong><br>" +
+            "  - Q = 0,70 × (500,0 - 0,0) + 0,0 = 0,70 × 500,0 = <strong>350,0 L/min</strong>",
+        },
+        {
+          id: 24,
+          type: "uraian",
+          visualHTML: VFD_CRUSHER_ANIMATED_VISUAL_HTML,
+          text: `
+            <div class="space-y-3">
+              <div class="bg-amber-50 border border-amber-200 rounded-xl p-3 sm:p-4 space-y-2 text-xs">
+                <span class="font-extrabold text-amber-900 uppercase block tracking-wider"><i class="fa-solid fa-gears text-amber-600 mr-1"></i> Spesifikasi VFD & Mesin Toothed Roll Crusher:</span>
+                <ul class="list-disc list-inside space-y-1 text-amber-950 font-medium">
+                  <li>Rentang Sinyal Analog Tegangan PLC (X): <strong>0,0 – 10,0 V DC</strong></li>
+                  <li>Rentang Frekuensi Inverter VFD (Y): <strong>0,0 – 50,0 Hz</strong></li>
+                  <li>Kapasitas Produksi Maksimal Mesin (pada f = 50 Hz): <strong>250 Ton/Jam</strong></li>
+                  <li>Sinyal Kontrol Keluaran dari PLC Saat Ini: <span class="bg-amber-600 text-white font-mono px-2 py-0.5 rounded font-bold">8,6 V DC</span></li>
+                </ul>
+              </div>
+
+              <div class="bg-blue-50 border border-blue-200 rounded-xl p-3 text-xs space-y-1">
+                <span class="font-extrabold text-blue-900 block"><i class="fa-solid fa-calculator text-blue-600 mr-1"></i> Rumus Persamaan Scaling Analog:</span>
+                <div class="p-2 bg-white rounded-lg border border-blue-200 text-center font-mono font-bold text-blue-950 text-sm overflow-x-auto">
+                  Y = [ (X - X_min) / (X_max - X_min) ] × (Y_max - Y_min) + Y_min
+                </div>
+              </div>
+
+              <p class="text-xs sm:text-sm font-semibold text-slate-800 leading-relaxed">
+                <strong>Instruksi Pengerjaan:</strong> Hitunglah besar <strong>Frekuensi VFD (Hz)</strong> dan <strong>Kapasitas Produksi Mesin (Ton/Jam)</strong> saat sinyal PLC bernilai <strong>8,6 V DC</strong>. Tuliskan langkah perhitungan matematis secara rinci pada lembar kertas coretan Anda, foto hasil pengerjaan tersebut lalu unggah pada kolom di bawah.
+              </p>
+            </div>
+          `,
+          explanation:
+            "<strong>Acuan Kunci & Langkah Perhitungan Uraian Soal #24:</strong><br>" +
+            "• <strong>Faktor Scaling Tegangan PLC:</strong><br>" +
+            "  - X = 8,6 V DC, X_min = 0,0 V DC, X_max = 10,0 V DC<br>" +
+            "  - Rasio = (8,6 - 0,0) / (10,0 - 0,0) = 8,6 / 10,0 = 0,86 (atau <strong>86%</strong>)<br><br>" +
+            "• <strong>1) Perhitungan Frekuensi VFD (Y):</strong><br>" +
+            "  - Y = 0,86 × (50,0 - 0,0) + 0,0 = 0,86 × 50,0 = <strong>43,0 Hz</strong><br><br>" +
+            "• <strong>2) Perhitungan Kapasitas Produksi Mesin:</strong><br>" +
+            "  - Kapasitas = 0,86 × 250 Ton/Jam = <strong>215,0 Ton/Jam</strong>",
+        },
+      ];
+
+      // STATE APPLICATION
+      let currentIdx = 0;
+      let userAnswers = new Array(questionsData.length).fill(null);
+      let isExamSubmitted = false;
+      let timeInSeconds = 90 * 60; // 90 Menit
+      let timerInterval;
+
+      // INITIALIZE APP ON LOAD
+      window.addEventListener("DOMContentLoaded", () => {
+        renderNumberGrids();
+        renderQuestion(0);
+        startTimer();
+      });
+
+      // RENDER NUMBER GRIDS IN SIDEBAR (PG, URAIAN & BAGIAN III)
+      function renderNumberGrids() {
+        const gridPG = document.getElementById("number-grid-pg");
+        const gridUraian = document.getElementById("number-grid-uraian");
+        const gridBagian3 = document.getElementById("number-grid-bagian3");
+
+        gridPG.innerHTML = "";
+        gridUraian.innerHTML = "";
+        gridBagian3.innerHTML = "";
+
+        questionsData.forEach((q, idx) => {
+          let isAnswered = false;
+          if (q.type === "pg") {
+            isAnswered = userAnswers[idx] !== null;
+          } else {
+            const ans = userAnswers[idx];
+            if (ans && typeof ans === "object") {
+              isAnswered = Boolean(
+                (ans.text && ans.text.trim() !== "") || ans.photo,
+              );
+            } else if (typeof ans === "string") {
+              isAnswered = ans.trim() !== "";
+            }
+          }
+
+          let btnClass =
+            "bg-slate-100 text-slate-700 hover:bg-slate-200 border-slate-200";
+          if (isAnswered) {
+            btnClass = "bg-blue-600 text-white font-bold border-blue-600";
+          }
+          if (idx === currentIdx) {
+            btnClass += " ring-2 ring-sky-400 ring-offset-1 font-bold";
+          }
+
+          const btnHTML = `
+            <button onclick="jumpToQuestion(${idx})" class="w-full h-8 rounded-lg border text-xs flex items-center justify-center transition-all ${btnClass}">
+              ${idx + 1}
+            </button>
+          `;
+
+          if (q.id <= 15) {
+            gridPG.innerHTML += btnHTML;
+          } else if (q.id <= 22) {
+            gridUraian.innerHTML += btnHTML;
+          } else {
+            gridBagian3.innerHTML += btnHTML;
+          }
+        });
+
+        // Update Answered Badge Count
+        const answeredCount = userAnswers.filter((a, idx) => {
+          if (questionsData[idx].type === "pg") return a !== null;
+          if (a && typeof a === "object") {
+            return Boolean((a.text && a.text.trim() !== "") || a.photo);
+          }
+          return typeof a === "string" && a.trim() !== "";
+        }).length;
+
+        document.getElementById("answered-count-badge").innerText =
+          `${answeredCount} dari ${questionsData.length} Terjawab`;
+
+        // Update Progress Bar
+        const progressPct = (answeredCount / questionsData.length) * 100;
+        document.getElementById("exam-progress-bar").style.width =
+          `${progressPct}%`;
+      }
+
+      // RENDER QUESTION CARD
+      function renderQuestion(index) {
+        currentIdx = index;
+        const q = questionsData[index];
+
+        document.getElementById("q-number-badge").innerText = `Soal #${q.id}`;
+
+        // Header Sub-Badge Updates
+        const typeBadge = document.getElementById("q-type-badge");
+        if (q.id <= 15) {
+          typeBadge.innerText = "Bagian I: Pilihan Ganda";
+          typeBadge.className =
+            "bg-blue-50 text-blue-700 border border-blue-200 text-[11px] font-bold px-2.5 py-0.5 rounded-md";
+        } else if (q.id <= 22) {
+          typeBadge.innerText = "Bagian II: Uraian Konseptual";
+          typeBadge.className =
+            "bg-purple-50 text-purple-700 border border-purple-200 text-[11px] font-bold px-2.5 py-0.5 rounded-md";
+        } else {
+          typeBadge.innerText = "Bagian III: Uraian Kalkulasi & Simulasi";
+          typeBadge.className =
+            "bg-amber-50 text-amber-700 border border-amber-300 text-[11px] font-bold px-2.5 py-0.5 rounded-md";
+        }
+
+        document.getElementById("q-text").innerHTML = q.text;
+        document.getElementById("q-counter-text").innerText =
+          `${index + 1} / ${questionsData.length}`;
+
+        // Render Visual HTML
+        const visualContainer = document.getElementById("visual-container");
+        if (q.visualHTML) {
+          visualContainer.innerHTML = q.visualHTML;
+          visualContainer.classList.remove("hidden");
+        } else {
+          visualContainer.innerHTML = "";
+          visualContainer.classList.add("hidden");
+        }
+
+        // Prev/Next Buttons state
+        document.getElementById("btn-prev").disabled = index === 0;
+        document.getElementById("btn-next").disabled =
+          index === questionsData.length - 1;
+
+        // Render Options / Inputs
+        const optionsContainer = document.getElementById("options-container");
+        optionsContainer.innerHTML = "";
+
+        if (q.type === "pg") {
+          const optionLabels = ["A", "B", "C", "D", "E"];
+          q.options.forEach((optText, optIdx) => {
+            const isSelected = userAnswers[index] === optIdx;
+            let optBorder =
+              "border-slate-200 hover:border-blue-300 bg-slate-50/50";
+            let badgeBg = "bg-slate-200 text-slate-700";
+
+            if (isSelected) {
+              optBorder = "border-blue-600 bg-blue-50/80 ring-1 ring-blue-500";
+              badgeBg = "bg-blue-600 text-white font-bold";
+            }
+
+            if (isExamSubmitted) {
+              if (optIdx === q.key) {
+                optBorder =
+                  "border-emerald-500 bg-emerald-50 text-emerald-900 font-medium";
+                badgeBg = "bg-emerald-600 text-white font-bold";
+              } else if (isSelected && optIdx !== q.key) {
+                optBorder = "border-red-500 bg-red-50 text-red-900";
+                badgeBg = "bg-red-500 text-white font-bold";
+              }
+            }
+
+            optionsContainer.innerHTML += `
+              <button onclick="selectOption(${optIdx})" ${isExamSubmitted ? "disabled" : ""} class="w-full text-left p-3 rounded-xl border transition-all flex items-center gap-3 cursor-pointer ${optBorder}">
+                <span class="w-7 h-7 rounded-lg text-xs flex items-center justify-center shrink-0 ${badgeBg}">
+                  ${optionLabels[optIdx]}
+                </span>
+                <span class="text-xs sm:text-sm text-slate-800 leading-snug font-normal">${optText}</span>
+              </button>
+            `;
+          });
+        } else {
+          // URAIAN TEXTAREA + FILE UPLOAD FOTO CORETAN
+          const currentAns = userAnswers[index] || { text: "", photo: null };
+          const textVal =
+            typeof currentAns === "string" ? currentAns : currentAns.text || "";
+          const photoVal =
+            typeof currentAns === "object" ? currentAns.photo : null;
+
+          optionsContainer.innerHTML = `
+            <div class="space-y-4">
+              <!-- Textarea -->
+              <div class="space-y-1.5">
+                <label class="text-xs font-bold text-slate-700 block flex items-center gap-1.5">
+                  <i class="fa-solid fa-pen-to-square text-blue-600"></i> Ketikkan Hasil / Penjelasan Ringkas:
+                </label>
+                <textarea
+                  rows="4"
+                  oninput="saveUraianText(this.value)"
+                  ${isExamSubmitted ? "disabled" : ""}
+                  placeholder="Ketikkan hasil akhir atau langkah singkat di sini..."
+                  class="w-full p-3.5 border border-slate-200 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all disabled:bg-slate-100 disabled:text-slate-700"
+                >${textVal}</textarea>
+              </div>
+
+              <!-- Upload Foto Coretan -->
+              <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 space-y-2">
+                <label class="text-xs font-bold text-slate-700 block flex items-center gap-1.5">
+                  <i class="fa-solid fa-camera text-blue-600"></i> Unggah Foto Coretan / Langkah Pengerjaan Matematika:
+                </label>
+                
+                ${
+                  photoVal
+                    ? `
+                    <div class="relative w-full max-w-xs rounded-xl overflow-hidden border border-blue-300 shadow-sm bg-white p-2">
+                      <img src="${photoVal}" alt="Foto Coretan Siswa" class="w-full h-auto max-h-48 object-contain rounded-lg" />
+                      ${
+                        !isExamSubmitted
+                          ? `
+                        <button onclick="removeUraianPhoto()" class="absolute top-3 right-3 bg-red-600 text-white w-7 h-7 rounded-full flex items-center justify-center shadow-md hover:bg-red-700 transition-all text-xs">
+                          <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                      `
+                          : ""
+                      }
+                      <span class="text-[10px] text-emerald-600 font-bold block mt-1.5 text-center">
+                        <i class="fa-solid fa-circle-check"></i> Foto Terunggah
+                      </span>
+                    </div>
+                  `
+                    : `
+                    <div class="flex items-center gap-2">
+                      <input
+                        type="file"
+                        id="uraian-photo-input"
+                        accept="image/*"
+                        onchange="handleImageUpload(event)"
+                        ${isExamSubmitted ? "disabled" : ""}
+                        class="hidden"
+                      />
+                      <label for="uraian-photo-input" class="cursor-pointer px-3.5 py-2 bg-white border border-slate-300 hover:border-blue-500 text-slate-700 rounded-xl text-xs font-bold shadow-sm transition-all flex items-center gap-2 ${isExamSubmitted ? "opacity-50 pointer-events-none" : ""}">
+                        <i class="fa-solid fa-cloud-arrow-up text-blue-600"></i> Pilih / Ambil Foto Jawaban
+                      </label>
+                      <span class="text-[11px] text-slate-400 font-medium">PNG, JPG, JPEG (Maks. 5MB)</span>
+                    </div>
+                  `
+                }
+              </div>
+            </div>
+          `;
+        }
+
+        // Show Explanation Box if submitted
+        const expBox = document.getElementById("explanation-box");
+        if (isExamSubmitted) {
+          expBox.classList.remove("hidden");
+          document.getElementById("explanation-title").innerText =
+            q.type === "pg"
+              ? "Kunci & Pembahasan PG:"
+              : "Acuan Kunci Jawaban Uraian:";
+          document.getElementById("explanation-text").innerHTML = q.explanation;
+        } else {
+          expBox.classList.add("hidden");
+        }
+
+        renderNumberGrids();
+      }
+
+      // SELECT PG OPTION
+      function selectOption(optIdx) {
+        if (isExamSubmitted) return;
+        userAnswers[currentIdx] = optIdx;
+        renderQuestion(currentIdx);
+      }
+
+      // SAVE URAIAN TEXT & PHOTO LOGIC
+      function saveUraianText(val) {
+        if (isExamSubmitted) return;
+        let currentObj = userAnswers[currentIdx];
+        if (typeof currentObj !== "object" || currentObj === null) {
+          currentObj = { text: "", photo: null };
+        }
+        currentObj.text = val;
+        userAnswers[currentIdx] = currentObj;
+        renderNumberGrids();
+      }
+
+      function handleImageUpload(event) {
+        if (isExamSubmitted) return;
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          let currentObj = userAnswers[currentIdx];
+          if (typeof currentObj !== "object" || currentObj === null) {
+            currentObj = { text: "", photo: null };
+          }
+          currentObj.photo = e.target.result;
+          userAnswers[currentIdx] = currentObj;
+          renderQuestion(currentIdx);
+        };
+        reader.readAsDataURL(file);
+      }
+
+      function removeUraianPhoto() {
+        if (isExamSubmitted) return;
+        let currentObj = userAnswers[currentIdx];
+        if (typeof currentObj === "object" && currentObj !== null) {
+          currentObj.photo = null;
+          userAnswers[currentIdx] = currentObj;
+        }
+        renderQuestion(currentIdx);
+      }
+
+      // NAVIGATION BUTTONS
+      function navigateQuestion(step) {
+        const nextIdx = currentIdx + step;
+        if (nextIdx >= 0 && nextIdx < questionsData.length) {
+          renderQuestion(nextIdx);
+        }
+      }
+
+      function jumpToQuestion(idx) {
+        renderQuestion(idx);
+      }
+
+      // TIMER LOGIC (90 MENIT)
+      function startTimer() {
+        timerInterval = setInterval(() => {
+          if (timeInSeconds <= 0) {
+            clearInterval(timerInterval);
+            submitExam();
+            return;
+          }
+          timeInSeconds--;
+          const minutes = Math.floor(timeInSeconds / 60);
+          const seconds = timeInSeconds % 60;
+          document.getElementById("timer-display").innerText =
+            `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+        }, 1000);
+      }
+
+      // SUBMIT EXAM & CALCULATE SCORE
+      function submitExam() {
+        if (!isExamSubmitted) {
+          const unanswered = userAnswers.filter((a, idx) => {
+            if (questionsData[idx].type === "pg") return a === null;
+            if (a && typeof a === "object") {
+              return !((a.text && a.text.trim() !== "") || a.photo);
+            }
+            return typeof a !== "string" || a.trim() === "";
+          }).length;
+
+          if (unanswered > 0) {
+            const confirmSubmit = confirm(
+              `Masih ada ${unanswered} soal yang belum dijawab. Yakin ingin mengumpulkan ujian?`,
+            );
+            if (!confirmSubmit) return;
+          }
+        }
+
+        isExamSubmitted = true;
+        clearInterval(timerInterval);
+
+        // Calculate Results for PG
+        let pgCorrectCount = 0;
+        let totalPG = 0;
+
+        questionsData.forEach((q, idx) => {
+          if (q.type === "pg") {
+            totalPG++;
+            if (userAnswers[idx] === q.key) {
+              pgCorrectCount++;
+            }
+          }
+        });
+
+        const score = Math.round((pgCorrectCount / totalPG) * 100);
+        const pgWrongCount = totalPG - pgCorrectCount;
+
+        // Populate Modal
+        document.getElementById("modal-score").innerText = score;
+        document.getElementById("modal-correct").innerText = pgCorrectCount;
+        document.getElementById("modal-wrong").innerText = pgWrongCount;
+
+        const feedback = document.getElementById("modal-feedback");
+        if (score >= 80) {
+          feedback.innerText =
+            "Sangat Luar Biasa! Pemahaman Anda mengenai Sistem Kontrol & PLC sangat matang.";
+        } else if (score >= 60) {
+          feedback.innerText =
+            "Cukup Bagus! Anda memahami dasar-dasar PLC dengan baik. Tinjau kembali pembahasan untuk penyempurnaan.";
+        } else {
+          feedback.innerText =
+            "Tetap Semangat! Pelajari kembali Modul Sistem Kontrol dan lakukan latihan scaling analog secara berkala.";
+        }
+
+        document.getElementById("results-modal").classList.remove("hidden");
+        renderQuestion(currentIdx);
+      }
+
+      function closeModalAndReview() {
+        document.getElementById("results-modal").classList.add("hidden");
+      }
+    </script>
+  </body>
+</html>
